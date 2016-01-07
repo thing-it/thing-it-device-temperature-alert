@@ -1,6 +1,6 @@
 module.exports = {
     metadata: {
-        family: "temperatureAlert",
+        family: "measurementUnit",
         plugin: "measurementUnit",
         label: "temperature@lert © Measurement Unit",
         tangible: true,
