@@ -50,9 +50,7 @@ module.exports = {
 
 var q = require('q');
 var xml2js;
-var net;
 var request;
-var datagram;
 
 /**
  *
@@ -70,10 +68,10 @@ function MeasurementUnit() {
 
         if (this.isSimulated()) {
             this.interval = setInterval(function () {
-                this.state.temperature1 += new Date().getTime() % 4;
-                this.state.temperature2 += new Date().getTime() % 3;
-                this.state.temperature3 += new Date().getTime() % 2;
-                this.state.temperature4 += new Date().getTime() % 5;
+                this.state.temperature1 = new Date().getTime() % 4;
+                this.state.temperature2 = new Date().getTime() % 3;
+                this.state.temperature3 = new Date().getTime() % 2;
+                this.state.temperature4 = new Date().getTime() % 5;
 
                 this.publishStateChange();
             }.bind(this), this.configuration.interval);
@@ -120,7 +118,7 @@ function MeasurementUnit() {
      *
      */
     MeasurementUnit.prototype.setState = function (state) {
-        // Ignore
+        this.state = state;
     };
 
     /**
