@@ -1,0 +1,22 @@
+{
+  "name": "thing-it-device-snmp",
+  "version": "0.0.1",
+  "description": "[thing-it-node] Device Plugin listening to SNMP traps.",
+  "authors": "Marc Gille",
+  "license": "MIT, EPL",
+  "keywords": [
+    "IoT",
+    "thing-it",
+    "SNMP"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcgille/thing-it-device-snmp"
+  },
+  "dependencies": {
+    "q": "^1.4.1",
+    "request": "^2.67.0",
+    "thing-it-test": "0.0.15",
+    "xml2js": "^0.4.15"
+  }
+}
