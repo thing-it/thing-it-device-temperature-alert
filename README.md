@@ -5,7 +5,7 @@
 
 Device Plugins for [[thing-it-node]](https://github.com/marcgille/thing-it-node) and [thing-it.com](wwww.thing-it.com) for the temperature@lert (http://www.temperaturealert.com/) measurement units.
 
-<img src="./documentation/images/circle.png"><img style="margin-left: 4em;" width="20%" src="./documentation/images/measurement-unit.jpeg">
+<img style="margin-left: 4em;" width="40%" src="./documentation/images/measurement-unit.jpeg">
 
 ## Installation and Configuration
 
