@@ -2,7 +2,8 @@
     <table style="display: inline-block;">
         <tr>
             <td colspan="3" style="text-align: center;"><span class="lightPrimaryColor" style="font-size: 4em;">{{component._state.temperature1 | number:1}}</span><span
-                    class="smallFont lightPrimaryColor">&deg;C</span></td>
+                    class="smallFont lightPrimaryColor"><span ng-if="component.configuration.unit != 'Celsius'">F</span><span
+                    ng-if="component.configuration.unit === 'Celsius'">&deg;C</span></span></td>
         </tr>
         <tr>
             <td style="width: 30%; text-align: center;"></td>
@@ -14,7 +15,8 @@
     <table style="display: inline-block;">
         <tr>
             <td colspan="3" style="text-align: center;"><span class="lightPrimaryColor" style="font-size: 4em;">{{component._state.temperature2 | number:1}}</span><span
-                    class="smallFont lightPrimaryColor">&deg;C</span></td>
+                    class="smallFont lightPrimaryColor"><span ng-if="component.configuration.unit != 'Celsius'">F</span><span
+                    ng-if="component.configuration.unit === 'Celsius'">&deg;C</span></span></td>
         </tr>
         <tr>
             <td style="width: 30%; text-align: center;"></td>
@@ -26,7 +28,8 @@
     <table style="display: inline-block;">
         <tr>
             <td colspan="3" style="text-align: center;"><span class="lightPrimaryColor" style="font-size: 4em;">{{component._state.temperature3 | number:1}}</span><span
-                    class="smallFont lightPrimaryColor">&deg;C</span></td>
+                    class="smallFont lightPrimaryColor"><span ng-if="component.configuration.unit != 'Celsius'">F</span><span
+                    ng-if="component.configuration.unit === 'Celsius'">&deg;C</span></span></td>
         </tr>
         <tr>
             <td style="width: 30%; text-align: center;"></td>
@@ -38,7 +41,8 @@
     <table style="display: inline-block;">
         <tr>
             <td colspan="3" style="text-align: center;"><span class="lightPrimaryColor" style="font-size: 4em;">{{component._state.temperature4 | number:1}}</span><span
-                    class="smallFont lightPrimaryColor">&deg;C</span></td>
+                    class="smallFont lightPrimaryColor"><span ng-if="component.configuration.unit != 'Celsius'">F</span><span
+                    ng-if="component.configuration.unit === 'Celsius'">&deg;C</span></span></td>
         </tr>
         <tr>
             <td style="width: 30%; text-align: center;"></td>
