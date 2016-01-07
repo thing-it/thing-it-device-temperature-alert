@@ -162,6 +162,8 @@ function MeasurementUnit() {
                             this.state["temperature" + port.$.number] = parseFloat(port.condition[0].currentReading[0]);
 
                             this.logDebug(">>>", this.state);
+
+                            this.publishStateChange();
                         }
                     }
                 }.bind(this));
