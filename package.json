@@ -1,6 +1,6 @@
 {
   "name": "thing-it-device-snmp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "[thing-it-node] Device Plugin listening to SNMP traps.",
   "authors": "Marc Gille",
   "license": "MIT, EPL",
