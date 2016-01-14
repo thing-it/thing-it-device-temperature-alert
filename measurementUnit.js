@@ -64,6 +64,14 @@ function MeasurementUnit() {
 
         this.logDebug("Unit started");
 
+        if ((this.configuration.interval > 1000) && (this.configuration.interval < 60000)) {
+            this.logDebug("Applying interval of " + this.configuration.interval + " as configured.");
+        } else {
+            this.logDebug("Configured interval of " + this.configuration.interval + " out of range; changing " +
+                "to 10000 (10s).");
+            this.configuration.interval = 10000;
+        }
+
         this.state = {temperature1: 0, temperature2: 0, temperature3: 0, temperature4: 0};
 
         if (this.isSimulated()) {
