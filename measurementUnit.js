@@ -390,10 +390,15 @@ function MeasurementUnit() {
                 request = require('request');
             }
 
-            this.pollState();
+            pollUnitState.call(this, this.configuration.host, this.configuration.mac, function(error, unitState){
+                this.logDebug(error, unitState);
+            }.bind(this));
 
             this.intervals.push(setInterval(function () {
-                this.pollState();
+                pollUnitState.call(this, this.configuration.host, this.configuration.mac, function(error, unitState){
+                    this.logDebug(error, unitState);
+                    //TODO update actorsusing
+                }.bind(this))
             }.bind(this), this.configuration.interval));
 
             deferred.resolve();
@@ -434,46 +439,5 @@ function MeasurementUnit() {
      */
     MeasurementUnit.prototype.getState = function () {
         return this.state;
-    };
-
-    /**
-     *
-     */
-    MeasurementUnit.prototype.pollState = function () {
-        this.logDebug("Poll state");
-
-        request.get({
-            url: this.url()
-        }, function (error, response, body) {
-            if (error) {
-                this.logError(error);
-
-                this.publishMessage(error);
-            }
-            else {
-                xml2js.parseString(body, function (error, result) {
-                    if (error) {
-                        this.logError(error);
-                    } else {
-                        this.logDebug(result.currentConditions.ports[0].port);
-
-                        for (var n in result.currentConditions.ports[0].port) {
-                            var port = result.currentConditions.ports[0].port[n];
-                            if (parseInt(port.$.number) > 4) {
-                                this.logError("Unknown Port number " + port.$.number);
-
-                                continue;
-                            }
-
-                            this.state["temperature" + port.$.number] = parseFloat(port.condition[0].currentReading[0]);
-
-                            this.logDebug(">>>", this.state);
-
-                            this.publishStateChange();
-                        }
-                    }
-                }.bind(this));
-            }
-        }.bind(this));
     };
 }

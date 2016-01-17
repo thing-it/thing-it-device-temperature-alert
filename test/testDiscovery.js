@@ -83,7 +83,7 @@ tempalertDiscovery.advertiseDevice = function (device) {
     };
 
     console.log("About to start device.");
-//    device.start();
+    device.start();
 }
 
 console.log("About to start.");
