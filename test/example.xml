@@ -1,0 +1,63 @@
+<currentConditions>
+    <deviceName>K55Boilerroom</deviceName>
+    <readingDateTime>01/08/2016 17:30:07</readingDateTime>
+    <tempUnits>Fahrenheit</tempUnits>
+    <form>1T20T21T22T23T24T</form>
+    <ports>
+        <port number="1" name="BoilerRoomTemp1">
+            <condition type="temperature">
+                <currentReading>93.5</currentReading>
+                <highLimit>200</highLimit>
+                <lowLimit>50</lowLimit>
+                <alarmStatus>0</alarmStatus>
+                <prevAlarmStatus>0</prevAlarmStatus>
+            </condition>
+        </port>
+        <port number="20" name="K55Return1">
+            <condition type="temperature">
+                <currentReading>98.5</currentReading>
+                <highLimit>200</highLimit>
+                <lowLimit>50</lowLimit>
+                <alarmStatus>0</alarmStatus>
+                <prevAlarmStatus>0</prevAlarmStatus>
+            </condition>
+        </port>
+        <port number="21" name="K55Feed1">
+            <condition type="temperature">
+                <currentReading>151.1</currentReading>
+                <highLimit>200</highLimit>
+                <lowLimit>50</lowLimit>
+                <alarmStatus>0</alarmStatus>
+                <prevAlarmStatus>0</prevAlarmStatus>
+            </condition>
+        </port>
+        <port number="22" name="K55Feed2">
+            <condition type="temperature">
+                <currentReading>91.2</currentReading>
+                <highLimit>200</highLimit>
+                <lowLimit>50</lowLimit>
+                <alarmStatus>0</alarmStatus>
+                <prevAlarmStatus>0</prevAlarmStatus>
+            </condition>
+        </port>
+        <port number="23" name="K55Return2">
+            <condition type="temperature">
+                <currentReading>83.4</currentReading>
+                <highLimit>200</highLimit>
+                <lowLimit>50</lowLimit>
+                <alarmStatus>0</alarmStatus>
+                <prevAlarmStatus>0</prevAlarmStatus>
+            </condition>
+        </port>
+        <port number="24" name="BoilerRoomTemp2">
+            <condition type="temperature">
+                <currentReading>94.3</currentReading>
+                <highLimit>200</highLimit>
+                <lowLimit>50</lowLimit>
+                <alarmStatus>0</alarmStatus>
+                <prevAlarmStatus>0</prevAlarmStatus>
+            </condition>
+        </port>
+    </ports>
+    <errorReadingSensor>0</errorReadingSensor>
+</currentConditions>
