@@ -60,6 +60,7 @@ var q = require('q');
 var xml2js;
 var request;
 var https;
+var sensorLibrary;
 
 function pollUnitState(host, mac, callback) {
     this.logDebug("Polling unit state for unit located at " + host);
@@ -109,7 +110,7 @@ function readUnitState(host, mac, result, callback) {
             try {
                 var port = result.currentConditions.ports[0].port[n];
 
-                unitState.ports.push({
+                unitState.ports[parseInt(port.$.number)] = {
                     number: parseInt(port.$.number),
                     name: port.$.name,
                     type: port.condition[0].$.type,
@@ -118,7 +119,7 @@ function readUnitState(host, mac, result, callback) {
                     lowLimit: parseInt(port.condition[0].lowLimit[0]),
                     alarmStatus: Boolean(port.condition[0].alarmStatus[0] != "0"),
                     prevAlarmStatus: Boolean(port.condition[0].prevAlarmStatus[0] != "0"),
-                })
+                };
 
             } catch (e) {
                 this.logError("Error reading port data for port " + n + ". Continuing reading " +
@@ -143,7 +144,7 @@ function MeasurementUnitDiscovery() {
 
     MeasurementUnitDiscovery.prototype.start = function () {
         vendors = {};
-        checkedIps =  {};
+        checkedIps = {};
 
         if (!this.node.isSimulated()) {
             this.scanForCameras();
@@ -304,7 +305,7 @@ function MeasurementUnitDiscovery() {
         }
     }
 
-    MeasurementUnitDiscovery.prototype.testConnection = function(ip, mac) {
+    MeasurementUnitDiscovery.prototype.testConnection = function (ip, mac) {
         pollUnitState.call(this, ip, mac, function (error, unitStatus) {
             if (error) {
                 this.logError("Skipping host " + host + " in Temperature@lert auto discovery due to an error.", error);
@@ -318,20 +319,29 @@ function MeasurementUnitDiscovery() {
                     discoveredDevice.uuid = unitStatus.mac;
 
                     discoveredDevice.actors = [];
+                    var currentPort;
 
                     for (var n in unitStatus.ports) {
-                        if (unitStatus.ports[n].type === "temperature") {
-                            discoveredDevice.actors.push({
-                                id: unitStatus.ports[n].number,
-                                label: unitStatus.ports[n].name,
-                                type: "TemperatureSensor",
-                                configuration: {
-                                    id: unitStatus.ports[n].number,
-                                    portNumber: unitStatus.ports[n].number,
-                                    name: unitStatus.ports[n].name,
-                                    type: unitStatus.ports[n].type,
-                                }
-                            });
+                        currentPort = unitStatus.ports[n];
+
+                        if (currentPort.type === "temperature") {
+                            if (!sensorLibrary) {
+                                sensorLibrary = require("./default-units/temperatureSensor")
+                            }
+
+                            var temperatureSensor = new sensorLibrary.create();
+                            temperatureSensor.id = currentPort.number;
+                            temperatureSensor.label = currentPort.name;
+                            temperatureSensor.type = "TemperatureSensor";
+                            temperatureSensor.configuration = {
+                                id: currentPort.number,
+                                portNumber: currentPort.number,
+                                name: currentPort.name,
+                                type: currentPort.type,
+                            };
+                            temperatureSensor.state = {};
+
+                            discoveredDevice.actors.push(temperatureSensor);
                         }
                     }
 
@@ -339,7 +349,6 @@ function MeasurementUnitDiscovery() {
                         " at IP address " + unitStatus.host + ".");
                     this.advertiseDevice(discoveredDevice);
                 } catch (e) {
-                    console.log(e.stack);
                     this.logError("Error creating Temperature@lert device.", e, unitStatus, discoveredDevice);
                 }
             }
@@ -390,14 +399,13 @@ function MeasurementUnit() {
                 request = require('request');
             }
 
-            pollUnitState.call(this, this.configuration.host, this.configuration.mac, function(error, unitState){
-                this.logDebug(error, unitState);
+            pollUnitState.call(this, this.configuration.host, this.configuration.mac, function (error, unitState) {
+                this.updateSensors(unitState);
             }.bind(this));
 
             this.intervals.push(setInterval(function () {
-                pollUnitState.call(this, this.configuration.host, this.configuration.mac, function(error, unitState){
-                    this.logDebug(error, unitState);
-                    //TODO update actorsusing
+                pollUnitState.call(this, this.configuration.host, this.configuration.mac, function (error, unitState) {
+                    this.updateSensors(unitState);
                 }.bind(this))
             }.bind(this), this.configuration.interval));
 
@@ -419,6 +427,26 @@ function MeasurementUnit() {
             clearInterval(interval);
         }
     };
+
+    /**
+     *
+     * @param unitState
+     */
+    MeasurementUnit.prototype.updateSensors = function (unitState) {
+        try {
+            var currentPort;
+
+            for (var n in this.actors) {
+                currentPort = unitState.ports[this.actors[n].configuration.portNumber];
+
+                if (currentPort) {
+                    this.actors[n].updateReading(currentPort);
+                }
+            }
+        } catch (e) {
+            this.logError("Error reading temperature.", e);
+        }
+    }
 
     /**
      *

@@ -147,4 +147,18 @@ function TemperatureSensor() {
         this.publishStateChange();
     };
 
+    /**
+     *
+     */
+    TemperatureSensor.prototype.updateReading = function (port) {
+        this.state.currentReading = port.currentReading;
+        this.state.highLimit = port.highLimit;
+        this.state.lowLimit = port.lowLimit;
+        this.state.alarmStatus = port.alarmStatus;
+        this.state.prevAlarmStatus = port.prevAlarmStatus;
+        this.logDebug("Updated sensor " + this.configuration.name + " on port " + this.configuration.portNumber +
+            " with reading '" + this.state.currentReading + "'.");
+        this.publishStateChange();
+    };
+
 };
