@@ -140,11 +140,9 @@ function readUnitState(host, mac, result, callback) {
 function MeasurementUnitDiscovery() {
     var discoveryInterval;
     var vendors;
-    var checkedIps;
 
     MeasurementUnitDiscovery.prototype.start = function () {
         vendors = {};
-        checkedIps = {};
 
         if (!this.node.isSimulated()) {
             this.logLevel = "info";
@@ -172,8 +170,6 @@ function MeasurementUnitDiscovery() {
                     if (err) {
                         this.logError(ip, err);
                     } else if (vendor) {
-                        checkedIps[ip] = true;
-
                         if ((-1 < vendor.indexOf("ALFA, INC.")) ||
                             (-1 < vendor.indexOf("Wilibox Deliberant Group LLC"))) {
                             this.logDebug("Vendor match found for host "
@@ -184,7 +180,6 @@ function MeasurementUnitDiscovery() {
                             this.logDebug("Ignoring host " + ip + " with vendor " + vendor + ".");
                         }
                     } else {
-                        checkedIps[ip] = true;
                         this.logDebug("No vendor found for IP " + ip + "; ignoring host.");
                     }
                 }.bind(this));
@@ -217,20 +212,16 @@ function MeasurementUnitDiscovery() {
                         var currentIP = subnet + i;
 
                         if (currentIP != myIp) {
-                            if (!checkedIps[currentIP]) { // don't check the same host twice.
-                                arp.getMAC(currentIP, function (err, mac) {
-                                    if (err) {
-                                        this.logError(currentIP, err);
-                                    } else {
-                                        if (mac !== undefined && mac && ("(incomplete)" != mac) && ("eth0" != mac)) {
-                                            this.logDebug ("MAC address found for IP " + currentIP + ": " + mac);
-                                            callback(false, currentIP, mac);
-                                        } else {
-                                            checkedIps[currentIP] = false;
-                                        }
+                            arp.getMAC(currentIP, function (err, mac) {
+                                if (err) {
+                                    this.logError(currentIP, err);
+                                } else {
+                                    if (mac !== undefined && mac && ("(incomplete)" != mac) && ("eth0" != mac)) {
+                                        this.logDebug ("MAC address found for IP " + currentIP + ": " + mac);
+                                        callback(false, currentIP, mac);
                                     }
-                                }.bind(this));
-                            }
+                                }
+                            }.bind(this));
                         }
                     }.bind(this))();
                 }
@@ -346,7 +337,7 @@ function MeasurementUnitDiscovery() {
                         }
                     }
 
-                    this.logInfo("Discovered Temperature@lert unit with name " +
+                    this.logDebug("Discovered Temperature@lert unit with name " +
                         discoveredDevice.configuration.deviceName + " at IP address " +
                         discoveredDevice.configuration.host + " with " + discoveredDevice.actors.length + " ports.");
                     this.advertiseDevice(discoveredDevice);

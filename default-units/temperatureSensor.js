@@ -3,7 +3,7 @@ module.exports = {
         plugin: "TemperatureSensor",
         label: "Temperature Sensor",
         role: "actor",
-        family: "measurementUnit",
+        family: "temperatureSensor",
         deviceTypes: ["temperature-alert/measurementUnit"],
         services: [],
         state: [{
@@ -111,8 +111,12 @@ function TemperatureSensor() {
         var deferred = q.defer();
 
         this.started = false;
-        this.logInfo("Stopping Temperature Sensor " + this.state.name + " at port " + this.configuration.portNumber
-            + " of device " + this.devive.configuration.host + ".");
+
+        try {
+            this.logInfo("Stopping Temperature Sensor " + this.configuration.name + " at port " + this.configuration.portNumber
+                + " of device " + this.device.configuration.host + ".");
+        } catch (e) {
+        }
 
         for (var interval in this.intervals) {
             clearInterval(interval);

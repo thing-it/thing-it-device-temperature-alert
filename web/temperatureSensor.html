@@ -1,0 +1,9 @@
+<div style="display: table-row; vertical-align: middle;">
+    <table style="display: inline-block;">
+        <tr>
+            <td style="text-align: center;"><span class="lightPrimaryColor" style="font-size: 4em;">{{component._state.currentReading | number:1}}</span><span
+                    class="smallFont lightPrimaryColor"><span ng-if="component.configuration.unit != 'Celsius'">F</span><span
+                    ng-if="component.configuration.unit === 'Celsius'">&deg;C</span></span></td>
+        </tr>
+    </table>
+</div>
