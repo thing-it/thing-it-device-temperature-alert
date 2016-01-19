@@ -147,9 +147,10 @@ function MeasurementUnitDiscovery() {
         checkedIps = {};
 
         if (!this.node.isSimulated()) {
-            this.scanForCameras();
+            this.logLevel = "info";
+            this.scanForUnits();
             discoveryInterval = setInterval(function () {
-                this.scanForCameras();
+                this.scanForUnits();
             }.bind(this), 60000);
         }
     }
@@ -160,7 +161,7 @@ function MeasurementUnitDiscovery() {
         }
     }
 
-    MeasurementUnitDiscovery.prototype.scanForCameras = function () {
+    MeasurementUnitDiscovery.prototype.scanForUnits = function () {
         this.scanLocalAreaNetworkHosts(function (error, ip, mac) {
             if (error) {
                 this.logError(error);
@@ -175,7 +176,7 @@ function MeasurementUnitDiscovery() {
 
                         if ((-1 < vendor.indexOf("ALFA, INC.")) ||
                             (-1 < vendor.indexOf("Wilibox Deliberant Group LLC"))) {
-                            this.logInfo("Vendor match found for host "
+                            this.logDebug("Vendor match found for host "
                                 + ip + ": \"" + vendor + "\"");
                             this.testConnection(ip, mac);
                         }
@@ -345,11 +346,12 @@ function MeasurementUnitDiscovery() {
                         }
                     }
 
-                    this.logInfo("Discovered Temperature@lert unit with name " + unitStatus.deviceName +
-                        " at IP address " + unitStatus.host + ".");
+                    this.logInfo("Discovered Temperature@lert unit with name " +
+                        discoveredDevice.configuration.deviceName + " at IP address " +
+                        discoveredDevice.configuration.host + " with " + discoveredDevice.actors.length + " ports.");
                     this.advertiseDevice(discoveredDevice);
                 } catch (e) {
-                    this.logError("Error creating Temperature@lert device.", e, unitStatus, discoveredDevice);
+                    this.logError("Error creating Temperature@lert device.", e, unitStatus, discoveredDevice, e.stack);
                 }
             }
         }.bind(this));

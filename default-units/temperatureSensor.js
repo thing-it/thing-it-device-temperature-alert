@@ -76,6 +76,8 @@ var hue;
  *
  */
 function TemperatureSensor() {
+
+
     /**
      *
      */
@@ -83,25 +85,18 @@ function TemperatureSensor() {
         var deferred = q.defer();
 
         this.started = true;
+        this.intervals = [];
+        this.simulationIntervals = [];
         this.state = {
             temperature: 0,
         };
 
-        if (!this.isSimulated()) {
-            if (!hue) {
-                hue = require('node-hue-api');
-            }
-
-            this.interval = setInterval(function () {
-                this.device.hueApi.lightStatus(this.configuration.id)
-                    .then(function (lightState) {
-                        this.state.reachable = lightState.reachable;
-                    }.bind(this)).fail(function (error) {
-                    this.state.reachable = false;
-                }.bind(this));
-            }.bind(this), 10000);
-        }
-        else {
+        if (this.isSimulated()) {
+            this.simulationIntervals.push(setInterval(function () {
+                this.state.currentReading = Math.round(Math.random() * 220) + Math.round(Math.random() * 10) / 10;
+                this.publishStateChange();
+                this.logDebug("Simulated new reading: " + this.state.currentReading);
+            }.bind(this), 10000));
         }
 
         deferred.resolve();
