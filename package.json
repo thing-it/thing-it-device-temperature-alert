@@ -1,6 +1,6 @@
 {
   "name": "thing-it-device-temperature-alert",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "[thing-it-node] Device Plugin listening to SNMP traps.",
   "authors": "Marc Gille, Klaus Berberich",
   "license": "MIT, EPL",

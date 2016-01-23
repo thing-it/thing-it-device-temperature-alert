@@ -304,7 +304,7 @@ function MeasurementUnitDiscovery() {
             } else {
                 try {
                     var discoveredDevice = new MeasurementUnit();
-                    discoveredDevice.configuration = this.defaultConfiguration;
+                    discoveredDevice.configuration = {};
                     discoveredDevice.configuration.host = unitStatus.host;
                     discoveredDevice.configuration.deviceName = unitStatus.deviceName;
                     discoveredDevice.configuration.interval = 10000;
