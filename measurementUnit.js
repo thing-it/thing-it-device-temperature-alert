@@ -322,11 +322,12 @@ function MeasurementUnitDiscovery() {
                             }
 
                             var temperatureSensor = new sensorLibrary.create();
-                            temperatureSensor.id = currentPort.number;
+                            temperatureSensor.uuiid = discoveredDevice.configuration.uuid + "port" + currentPort.number;
+                            temperatureSensor.id = "port" + currentPort.number;
                             temperatureSensor.label = currentPort.name;
                             temperatureSensor.type = "TemperatureSensor";
                             temperatureSensor.configuration = {
-                                id: currentPort.number,
+                                id: "" + currentPort.number,
                                 portNumber: currentPort.number,
                                 name: currentPort.name,
                                 type: currentPort.type,
@@ -384,14 +385,6 @@ function MeasurementUnit() {
 
             deferred.resolve();
         } else {
-            if (!xml2js) {
-                xml2js = require('xml2js');
-            }
-
-            if (!request) {
-                request = require('request');
-            }
-
             pollUnitState.call(this, this.configuration.host, this.configuration.mac, function (error, unitState) {
                 this.updateSensors(unitState);
             }.bind(this));
