@@ -300,7 +300,7 @@ function MeasurementUnitDiscovery() {
     MeasurementUnitDiscovery.prototype.testConnection = function (ip, mac) {
         pollUnitState.call(this, ip, mac, function (error, unitStatus) {
             if (error) {
-                this.logError("Skipping host " + host + " in Temperature@lert auto discovery due to an error.", error);
+                this.logError("Skipping host " + ip + " in Temperature@lert auto discovery due to an error.", error);
             } else {
                 try {
                     var discoveredDevice = new MeasurementUnit();
