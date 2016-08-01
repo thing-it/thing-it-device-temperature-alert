@@ -50,7 +50,7 @@ locally as described [here](https://thing-it.com/thing-it/#/documentationPanel/m
 
 The following screenshot shows the Node Page of the [sample configuration]("./examples.configuration"):
 
-<a href="./documentation/images/mobile-ui.png"><img src="./documentation/images/mobile-ui.png" width="80%" height="80%"></a>
+<a href="./documentation/images/thing-it-mobile-temperature-alert_iphone6plus_silver_side1.png"><img src="./documentation/images/thing-it-mobile-temperature-alert_iphone6plus_silver_side1.png" width="80%" height="80%"></a>
 
 ## Where to go from here ...
 
