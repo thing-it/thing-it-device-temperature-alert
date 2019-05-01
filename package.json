@@ -1,5 +1,5 @@
 {
-  "name": "thing-it-device-temperature-alert",
+  "name": "@thing-it/device-temperature-alert",
   "version": "0.0.16",
   "description": "[thing-it-node] Device Plugin listening to SNMP traps.",
   "authors": "Marc Gille, Klaus Berberich",
@@ -11,7 +11,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/marcgille/thing-it-device-temperature-alert"
+    "url": "https://github.com/thing-it/thing-it-device-temperature-alert"
+  },
+  "scripts": {
+    "postversion": "git push && git push --tags && npm publish"
   },
   "dependencies": {
     "network": "^0.1.3",
