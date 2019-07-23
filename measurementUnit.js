@@ -359,6 +359,12 @@ function MeasurementUnit() {
     MeasurementUnit.prototype.start = function () {
         var deferred = q.defer();
 
+        this.operationalState = {
+            status: 'PENDING',
+            message: 'Waiting for initialization...'
+        };
+        this.publishOperationalStateChange();
+
         this.logDebug("Unit started");
 
         if ((this.configuration.interval > 1000) && (this.configuration.interval < 60000)) {
@@ -383,6 +389,12 @@ function MeasurementUnit() {
                 this.publishStateChange();
             }.bind(this), this.configuration.interval));
 
+            this.operationalState = {
+                status: 'OK',
+                message: 'Measurement Unit successfully initialized'
+            }
+            this.publishOperationalStateChange();
+
             deferred.resolve();
         } else {
             pollUnitState.call(this, this.configuration.host, this.configuration.mac, function (error, unitState) {
@@ -395,6 +407,12 @@ function MeasurementUnit() {
                 }.bind(this))
             }.bind(this), this.configuration.interval));
 
+            this.operationalState = {
+                status: 'OK',
+                message: 'Measurement Unit successfully initialized'
+            }
+            this.publishOperationalStateChange();
+            
             deferred.resolve();
         }
 

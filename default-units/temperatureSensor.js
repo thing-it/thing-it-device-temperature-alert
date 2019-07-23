@@ -84,6 +84,12 @@ function TemperatureSensor() {
     TemperatureSensor.prototype.start = function () {
         var deferred = q.defer();
 
+        this.operationalState = {
+            status: 'PENDING',
+            message: 'Waiting for initialization...'
+        };
+        this.publishOperationalStateChange();
+
         this.started = true;
         this.intervals = [];
         this.simulationIntervals = [];
@@ -98,6 +104,13 @@ function TemperatureSensor() {
                 this.logDebug("Simulated new reading: " + this.state.currentReading);
             }.bind(this), 10000));
         }
+
+
+        this.operationalState = {
+            status: 'OK',
+            message: 'Temperature Sensor successfully initialized'
+        }
+        this.publishOperationalStateChange();
 
         deferred.resolve();
 
